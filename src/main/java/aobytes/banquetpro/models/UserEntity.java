@@ -1,5 +1,6 @@
 package aobytes.banquetpro.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +19,13 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String nombre;
+    @Column (name = "apellido_paterno")
+    private String apeliidoP;
+    @Column (name = "apellido_materno")
+    private String apellidoM;
+    private String correo;
 
     private String username;
     private String password;

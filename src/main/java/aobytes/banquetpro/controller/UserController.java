@@ -22,5 +22,5 @@ public class UserController {
     public ResponseEntity<String> saveUser(@RequestBody UserDTO dto) {
         userService.saveUser(dto);
         return ResponseEntity.ok("User saved successfully");
-    }
+    } 
 }
