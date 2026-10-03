@@ -1,5 +1,7 @@
 package aobytes.banquetpro.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import aobytes.banquetpro.dto.CEventoDTO;
 import aobytes.banquetpro.models.ClienteEntity;
 import aobytes.banquetpro.models.EvetoEntity;
+import aobytes.banquetpro.models.enums.EstadoEvento;
 import aobytes.banquetpro.repositories.ClienteRepository;
 import aobytes.banquetpro.repositories.EventoRepository;
 
@@ -18,6 +21,7 @@ public class EventoService {
     @Autowired 
     private ClienteRepository clienteRepository;
 
+   
     @Transactional
     public void saveEvento(CEventoDTO dto){
         EvetoEntity evento = new EvetoEntity();
@@ -42,6 +46,10 @@ public class EventoService {
         ClienteEntity savedCliente = clienteRepository.save(cliente);
         evento.setCliente(savedCliente);
         eventoRepository.save(evento);
+    }
+
+    public List<EvetoEntity> getEventosPendientes() {
+        return eventoRepository.findByEstatus(EstadoEvento.PENDIENTE);
     }
 
     
