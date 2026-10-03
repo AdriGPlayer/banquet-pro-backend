@@ -1,5 +1,7 @@
 package aobytes.banquetpro.models;
 
+
+import java.time.LocalTime;
 import java.util.Date;
 
 import aobytes.banquetpro.models.enums.EstadoEvento;
@@ -31,11 +33,21 @@ public class EvetoEntity {
     private Date fechaEvento;
     private String nombre;
     private String descripcion;
+    private String lugar;
+    private String importe;
+    private String notas;
+
+    @Column (name = "hora_inicio")
+    private LocalTime horaInicio;
+    @Column (name = "hora_fin")
+    private LocalTime horaFin;
+
+    private Long invitados;
+
     @OneToOne 
     @JoinColumn(name = "id_cliente")
     private ClienteEntity cliente;
 
     @Enumerated (EnumType.STRING)
-
-   EstadoEvento estatus;
+    EstadoEvento estatus;
 }

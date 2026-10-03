@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/banquetpro/api/user/**").permitAll()
+                        .requestMatchers("/banquetpro/api/event/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated());
 
