@@ -52,5 +52,56 @@ public class EventoService {
         return eventoRepository.findByEstatus(EstadoEvento.PENDIENTE);
     }
 
+    public List<EvetoEntity> getAllEventos() {
+        return eventoRepository.findAll();
+    }
+
+    public EvetoEntity getEventoById(Long id) {
+        return eventoRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
+    public EvetoEntity updateEvento(Long id, CEventoDTO dto) {
+        EvetoEntity evento = eventoRepository.findById(id).orElse(null);
+        if (evento == null) {
+            return null;
+        }
+        evento.setNombre(dto.getEvento().getNombre());
+        evento.setDescripcion(dto.getEvento().getDescripcion());
+        evento.setEstatus(dto.getEvento().getEstatus());
+        evento.setFechaEvento(dto.getEvento().getFechaEvento());
+        evento.setHoraFin(dto.getEvento().getHoraFin());
+        evento.setHoraInicio(dto.getEvento().getHoraInicio());
+        evento.setImporte(dto.getEvento().getImporte());
+        evento.setInvitados(dto.getEvento().getInvitados());
+        evento.setLugar(dto.getEvento().getLugar());
+        evento.setNotas(dto.getEvento().getNotas());
+
+        if (dto.getCliente() != null && evento.getCliente() != null) {
+            ClienteEntity cliente = evento.getCliente();
+            cliente.setNombre(dto.getCliente().getNombre());
+            cliente.setApellidoM(dto.getCliente().getApellidoM());
+            cliente.setApellidoP(dto.getCliente().getApellidoP());
+            cliente.setEmail(dto.getCliente().getEmail());
+            cliente.setTelefono(dto.getCliente().getTelefono());
+            clienteRepository.save(cliente);
+        } else if (dto.getCliente() != null && evento.getCliente() == null) {
+            ClienteEntity cliente = new ClienteEntity();
+            cliente.setNombre(dto.getCliente().getNombre());
+            cliente.setApellidoM(dto.getCliente().getApellidoM());
+            cliente.setApellidoP(dto.getCliente().getApellidoP());
+            cliente.setEmail(dto.getCliente().getEmail());
+            cliente.setTelefono(dto.getCliente().getTelefono());
+            ClienteEntity savedCliente = clienteRepository.save(cliente);
+            evento.setCliente(savedCliente);
+        }
+        return eventoRepository.save(evento);
+    }
+
+    @Transactional
+    public void deleteEvento(Long id) {
+        eventoRepository.deleteById(id);
+    }
+
     
 }
